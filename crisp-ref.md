@@ -133,3 +133,274 @@ catch (IOException | SQLException e) {
 * Write custom exceptions for business logic clarity
 
 ---
+Perfect — here's your **📝 Quick Revision Notes — Java Multithreading**:
+
+---
+
+### JAVA MULTITHREADING — CHEAT SHEET
+
+**1. What is Multithreading?**
+
+* Multiple threads run concurrently.
+* Used for parallelism, responsiveness, and better CPU utilization.
+* Threads share memory space; processes do not.
+
+---
+
+**2. Creating Threads**
+
+| Approach              | How                           | Notes                     |
+| --------------------- | ----------------------------- | ------------------------- |
+| Extending Thread      | `class A extends Thread`      | Override `run()`          |
+| Implementing Runnable | `class A implements Runnable` | Preferred (more flexible) |
+
+* Start using: `new Thread(new A()).start();`
+* **Don’t call `run()` directly.**
+
+---
+
+**3. Thread Lifecycle**
+
+1. New
+2. Runnable
+3. Running
+4. Blocked/Waiting
+5. Terminated
+
+---
+
+**4. Thread Priorities**
+
+* Range: 1 to 10 (`MIN_PRIORITY` to `MAX_PRIORITY`)
+* Use `setPriority(int)`
+* Not guaranteed by JVM (OS dependent)
+
+---
+
+**5. Synchronization**
+
+* Prevents race conditions
+* Use `synchronized` on methods/blocks
+* Or use `ReentrantLock` from `java.util.concurrent.locks`
+
+```java
+synchronized void method() { ... }
+```
+
+---
+
+**6. volatile Keyword**
+
+* Ensures **visibility**, not atomicity
+* Use when one thread modifies a shared flag or variable
+
+```java
+volatile boolean isRunning = true;
+```
+
+---
+
+**7. Deadlock**
+
+* Occurs when threads block each other forever
+* Avoid by:
+
+  * Lock ordering
+  * Try-locks (`tryLock()`)
+  * Timeouts
+
+---
+
+**8. Thread-safe Collections**
+
+| Legacy               | Modern Alternatives    |
+| -------------------- | ---------------------- |
+| `Vector`             | `CopyOnWriteArrayList` |
+| `Hashtable`          | `ConcurrentHashMap`    |
+| `synchronizedList()` | Wrapper over ArrayList |
+
+---
+
+**9. Executor Framework (Java 5+)**
+
+* Preferred for thread management
+* Use `ExecutorService`, `Executors`
+
+```java
+ExecutorService pool = Executors.newFixedThreadPool(3);
+pool.execute(new Task());
+pool.shutdown();
+```
+
+---
+
+**10. Best Practices**
+
+* Use `Runnable` or `Callable`, not `Thread` directly
+* Prefer **Executors** over manual threads
+* Avoid shared mutable state
+* Handle exceptions inside threads
+---
+###  JAVA COLLECTIONS FRAMEWORK — CHEAT SHEET
+
+**1. What is it?**
+
+* Framework of **interfaces + classes** to manage groups of objects
+* Key interfaces: `List`, `Set`, `Queue`, `Map`
+* Utility class: `Collections` (for sorting, synchronizing, etc.)
+
+---
+
+**2. Core Interfaces Hierarchy**
+
+```
+Collection
+├── List        → ordered, duplicates allowed
+├── Set         → unique elements, unordered
+├── Queue       → FIFO structure
+Map (separate)  → key-value pairs, no duplicates in keys
+```
+
+---
+
+**3. List Implementations**
+
+| Class      | Ordered  | Duplicates | Thread-safe | Notes                         |
+| ---------- | -------- | ---------- | ----------- | ----------------------------- |
+| ArrayList  | ✅        | ✅          | ❌           | Fast access, slow insertions  |
+| LinkedList | ✅        | ✅          | ❌           | Good for insert/delete        |
+| Vector     | ✅        | ✅          | ✅ (legacy)  | Synchronized, rarely used now |
+| Stack      | ✅ (LIFO) | ✅          | ✅ (legacy)  | Based on Vector               |
+
+---
+
+**4. Set Implementations**
+
+| Class         | Ordered       | Nulls      | Unique Only | Notes                        |
+| ------------- | ------------- | ---------- | ----------- | ---------------------------- |
+| HashSet       | ❌             | ✅ (1 null) | ✅           | Backed by HashMap            |
+| LinkedHashSet | ✅ (insertion) | ✅ (1 null) | ✅           | Maintains order              |
+| TreeSet       | ✅ (sorted)    | ❌          | ✅           | Uses natural or custom order |
+
+---
+
+**5. Map Implementations**
+
+| Class             | Ordered?        | Nulls                        | Thread-safe? |
+| ----------------- | --------------- | ---------------------------- | ------------ |
+| HashMap           | ❌               | ✅ 1 null key, many null vals | ❌            |
+| LinkedHashMap     | ✅ (insertion)   | 1 null key                    | ❌            |
+| TreeMap           | ✅ (sorted keys) | ❌                            | ❌            |
+| Hashtable         | ❌ (legacy)      | ❌                            | ✅            |
+| ConcurrentHashMap | ❌               | ❌                            | ✅ (modern)   |
+
+---
+
+**6. Queue Implementations**
+
+* `PriorityQueue`: Orders elements by natural/comparator priority
+* `ArrayDeque`: Fast double-ended queue
+* `LinkedList`: Implements Queue and Deque
+
+---
+
+**7. Comparable vs Comparator**
+
+| Trait      | Comparable                         | Comparator                  |
+| ---------- | ---------------------------------- | --------------------------- |
+| Method     | `compareTo()`                      | `compare()`                 |
+| Defined in | Class itself                       | Separate class              |
+| Usage      | Natural order (e.g., sort by name) | Custom order (e.g., by age) |
+
+---
+
+**8. Fail-fast vs Fail-safe**
+
+| Fail-fast                                | Fail-safe                                       |
+| ---------------------------------------- | ----------------------------------------------- |
+| Throws `ConcurrentModificationException` | Works safely in multi-threaded env              |
+| Ex: `ArrayList`, `HashMap`               | Ex: `ConcurrentHashMap`, `CopyOnWriteArrayList` |
+
+---
+
+**9. Thread-safe Collections**
+
+* Legacy: `Vector`, `Hashtable`
+* Wrapper: `Collections.synchronizedList()`
+* Modern: `ConcurrentHashMap`, `CopyOnWriteArrayList`
+
+---
+
+**10. Utility Methods**
+
+* `Collections.sort(list)`
+* `Collections.reverse(list)`
+* `Collections.synchronizedList(list)`
+* `Collections.unmodifiableList(list)`
+---
+
+###  SPRING FRAMEWORK — CHEAT SHEET
+
+**1. What is a Bean?**
+
+* Object managed by Spring IoC container
+* Created, initialized, and destroyed by Spring
+* Defined via annotations (`@Component`, `@Service`, etc.) or XML
+* Default scope: Singleton
+
+---
+
+**2. Inversion of Control (IoC)**
+
+* Container controls creation & wiring of dependencies
+* Promotes loose coupling
+* Dependencies injected via constructor, setter, or field
+* Example: Service class gets Repository injected by Spring instead of creating it
+
+---
+
+**3. Key Annotations**
+
+| Annotation        | Purpose                                      |
+| ----------------- | -------------------------------------------- |
+| `@Component`      | Marks any Spring-managed bean                |
+| `@Service`        | Marks service/business layer bean            |
+| `@Repository`     | Marks DAO layer + translates exceptions      |
+| `@Controller`     | Marks MVC web controller                     |
+| `@RestController` | Controller + JSON response (`@ResponseBody`) |
+| `@Autowired`      | Injects dependencies automatically           |
+| `@Qualifier`      | Chooses among multiple beans                 |
+| `@Configuration`  | Class with bean definitions                  |
+| `@Bean`           | Defines a bean inside configuration class    |
+| `@PostConstruct`  | Runs method after bean initialization        |
+| `@PreDestroy`     | Runs method before bean destruction          |
+| `@Transactional`  | Manages database transactions declaratively  |
+
+---
+
+**4. Spring Boot**
+
+* Auto-configures apps, embedded server, starter dependencies
+* Minimal boilerplate, fast setup
+
+---
+
+**5. Spring MVC**
+
+* DispatcherServlet routes requests
+* Use `@RequestMapping` and variants to map HTTP methods
+* `@RestController` returns JSON by default
+
+---
+
+**6. Aspect-Oriented Programming (AOP)**
+
+* Separates cross-cutting concerns (logging, transactions)
+* Use `@Aspect`, `@Before`, `@After`, `@Around` annotations
+
+---
+
+**7. Transaction Management**
+
+* Use `@Transactional` on service/DAO methods
+* Manages commit/rollback automatically
