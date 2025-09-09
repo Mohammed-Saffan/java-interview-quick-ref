@@ -101,9 +101,10 @@ volatile boolean flag = true;
 #### 8. **Deadlock**
 
 * Two or more threads waiting **forever** for each other to release resources.
+* Write resource accessing (for two or more threads) in same order to prevent deadloak
 * Avoid by:
 
-  * Lock ordering
+  * Lock ordering 
   * Try-lock mechanisms
   * Timeouts
 
