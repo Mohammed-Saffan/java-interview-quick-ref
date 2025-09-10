@@ -56,8 +56,7 @@
 **12. SOLID Principles** (Advanced)
 
 * Clean, maintainable, scalable OOP design
-Perfect. Here's your **📝 Quick Revision Notes — Java Exception Handling**:
-
+Perfect.
 ---
 
 ### JAVA EXCEPTION HANDLING — CHEAT SHEET
